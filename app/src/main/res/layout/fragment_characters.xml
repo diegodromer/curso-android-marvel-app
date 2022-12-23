@@ -12,7 +12,7 @@
         layout="@layout/include_view_characters_loading_state" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_character"
+        android:id="@+id/recycler_characters"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -21,5 +21,5 @@
 
     <include
         android:id="@+id/include_view_characters_error_state"
-        layout="@layout/include_view_characters_error_state" />
+        layout="@layout/include_error_view" />
 </ViewFlipper>
