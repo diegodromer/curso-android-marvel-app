@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.core.domain.model.SortingType
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentSortBinding
@@ -25,12 +26,9 @@ class SortFragment : BottomSheetDialogFragment() {
     private val viewModel: SortViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = FragmentSortBinding.inflate(
-        inflater,
-        container,
-        false
+        inflater, container, false
     ).apply {
         _binding = this
     }.root
@@ -80,29 +78,32 @@ class SortFragment : BottomSheetDialogFragment() {
                 }
                 is SortViewModel.UiState.ApplyState.Loading -> binding.flipperApply.displayedChild =
                     FLIPPER_CHILD_PROGRESS
-                is SortViewModel.UiState.ApplyState.Success -> binding.flipperApply.displayedChild =
-                    FLIPPER_CHILD_BUTTON
-
+                is SortViewModel.UiState.ApplyState.Success -> {
+                    findNavController().run {
+                        previousBackStackEntry?.savedStateHandle?.set(
+                            SORTING_APPLIED_BACK_STACK_KEY,
+                            true
+                        )
+                        popBackStack()
+                    }
+                }
                 is SortViewModel.UiState.ApplyState.Error -> binding.flipperApply.displayedChild =
                     FLIPPER_CHILD_BUTTON
-
             }
         }
     }
 
-    private fun getOrderByValue(chipId: Int): String =
-        when (chipId) {
-            R.id.chip_name -> SortingType.ORDER_BY_NAME.value
-            R.id.chip_modified -> SortingType.ORDER_BY_MODIFIED.value
-            else -> SortingType.ORDER_BY_NAME.value
-        }
+    private fun getOrderByValue(chipId: Int): String = when (chipId) {
+        R.id.chip_name -> SortingType.ORDER_BY_NAME.value
+        R.id.chip_modified -> SortingType.ORDER_BY_MODIFIED.value
+        else -> SortingType.ORDER_BY_NAME.value
+    }
 
-    private fun getOrderValue(chipId: Int): String =
-        when (chipId) {
-            R.id.chip_ascending -> SortingType.ORDER_ASCENDING.value
-            R.id.chip_descending -> SortingType.ORDER_DESCENDING.value
-            else -> SortingType.ORDER_ASCENDING.value
-        }
+    private fun getOrderValue(chipId: Int): String = when (chipId) {
+        R.id.chip_ascending -> SortingType.ORDER_ASCENDING.value
+        R.id.chip_descending -> SortingType.ORDER_DESCENDING.value
+        else -> SortingType.ORDER_ASCENDING.value
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -112,5 +113,6 @@ class SortFragment : BottomSheetDialogFragment() {
     companion object {
         private const val FLIPPER_CHILD_BUTTON = 0
         private const val FLIPPER_CHILD_PROGRESS = 1
+        const val SORTING_APPLIED_BACK_STACK_KEY = "sortingAppliedBackStackKey"
     }
 }

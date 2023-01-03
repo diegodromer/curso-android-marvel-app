@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.marvelapp.framework.db.dao.CharacterDao
 import com.example.marvelapp.framework.db.dao.FavoriteDao
-import com.example.marvelapp.framework.db.dao.RemoteKetDao
+import com.example.marvelapp.framework.db.dao.RemoteKeyDao
 import com.example.marvelapp.framework.db.entity.CharacterEntity
 import com.example.marvelapp.framework.db.entity.FavoriteEntity
 import com.example.marvelapp.framework.db.entity.RemoteKey
@@ -24,5 +24,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao
 
-    abstract fun remoteKeyDao(): RemoteKetDao
+    abstract fun remoteKeyDao(): RemoteKeyDao
 }

@@ -45,7 +45,7 @@
         android:id="@+id/text_order_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/sort_order_by"
+        android:text="@string/sort_order"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
